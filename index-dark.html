@@ -11,46 +11,6 @@
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     
-	
-    <!-- View Counter -->
-	<script>
-    function getLoadCount(){
-
-        // call an AWS gateway API, that then calls an AWS Lambda
-        // to read and then update AWS DynamoDB item showing load count
-
-        // Note call is synchronous, delays should be minimal
-        var req = new XMLHttpRequest();  
-        req.open('GET', 
-        "https://nq0os04mci.execute-api.us-east-1.amazonaws.com/beta", 
-        false);   
-        req.send();  
-        if(req.status == 200)
-            {  
-                len = req.responseText.length;
-                // response text has opening and closing double quotes
-                console.log(req.responseText.substring(1, len-1));
-                // set field in footer
-                document.getElementById("loadcount").textContent = 
-                    req.responseText.substring(10, len-2);
-            }
-        else {
-            // NOT OK response, so log in console
-            console.log(req.status)
-        }//end if
-    }// end getLoadCount
-
-    // read and write visit count into footer, then increment count in DB
-    window.onload = function(){
-
-            // side effects
-            // getLoadCount() updates field in footer, increments count in DB
-            getLoadCount();
-        }; //end window.onload
-
-
-
-</script>
     <!-- Load Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,100,300italic,300,100italic,400italic,500,500italic,700,700italic&amp;subset=latin,cyrillic' rel='stylesheet'>
     
@@ -154,7 +114,9 @@
 				<a target="_blank" href="https://twitter.com/"><span class="ion ion-social-twitter"></span></a>
 				<a target="_blank" href="https://github.com/nosnorbj"><span class="ion ion-social-github"></span></a>
             </div>
-		<div class="copy"><span id="loadcount">Not Available</span></div>
+		<div class="copy">
+			Page Count: <span id="loadcount">Not Available</span>
+		</div>
             <div class="clr"></div>
         </footer>
         
@@ -176,6 +138,44 @@
 	
 	<!-- Main Scripts -->
 	<script src="js/glitche-scripts.js"></script>
+	<script>
+    function getLoadCount(){
+
+        // call an AWS gateway API, that then calls an AWS Lambda
+        // to read and then update AWS DynamoDB item showing load count
+
+        // Note call is synchronous, delays should be minimal
+        var req = new XMLHttpRequest();  
+        req.open('GET', 
+        "https://nq0os04mci.execute-api.us-east-1.amazonaws.com/beta", 
+        false);   
+        req.send();  
+        if(req.status == 200)
+            {  
+                len = req.responseText.length;
+                // response text has opening and closing double quotes
+                console.log(req.responseText.substring(1, len-1));
+                // set field in footer
+                document.getElementById("loadcount").textContent = 
+                    req.responseText.substring(10, len-2);
+            }
+        else {
+            // NOT OK response, so log in console
+            console.log(req.status)
+        }//end if
+    }// end getLoadCount
+
+    // read and write visit count into footer, then increment count in DB
+    window.onload = function(){
+
+            // side effects
+            // getLoadCount() updates field in footer, increments count in DB
+            getLoadCount();
+        }; //end window.onload
+
+
+
+	</script>
 	
 </body>
 </html>
